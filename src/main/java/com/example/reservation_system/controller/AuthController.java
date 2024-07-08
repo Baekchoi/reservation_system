@@ -34,7 +34,9 @@ public class AuthController {
 
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();
+            // 로그인요청으로 들어온 비밀번호와 저장되어 있는 비밀번호가 일치하는지 확인
             if (passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+                // 403에러 .. 검색을 통해 인증객체를 설정하는 코드 작성해 보았지만 해결되지 않음
                 List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));
                 UserDetails userDetails = new org.springframework.security.core.userdetails.User(member.getEmail(), member.getPassword(), authorities);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
